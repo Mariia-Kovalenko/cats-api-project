@@ -68,7 +68,7 @@ const RandomCat = (props) => {
                     <img src="images/dislike-white.svg" alt='dislike'></img>
                 </button>
 
-                <button onClick={loadCat} className="cat__button like">
+                <button onClick={() => addFavourites(cat, 'like')} className="cat__button like">
                     <img src="images/heart-white.svg" alt='like'></img>
                 </button>
 

@@ -1,46 +1,34 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import Aside from "../aside/aside";
 import TabsContainer from "../TabsContainer/TabsContainer";
 
-class App extends Component {
+const App = () => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            favourites: [],
-            likes: []
+    const [favourites, setFavourites] = useState([]);
+    const [likes, setLikes] = useState([]);
+
+    useEffect(() => {
+        console.log('favs',favourites);
+        console.log('likes',likes);
+    }, [favourites, likes])
+
+    const addFavourites = (cat, mark) => {
+        // console.log(mark);
+        if (mark === 'fav') {
+            setFavourites(favourites => [...favourites, cat])
+        } else if (mark === 'like') {
+            setLikes(likes => [...likes, cat])
         }
     }
 
-    componentDidUpdate() {
-        console.log(this.state.favourites);
-    }
-    
-
-    addFavourites = (cat, mark) => {
-        // console.log(cat);
-        if (mark == 'fav') {
-            this.setState((data) => {
-                const newFavourites = [...data.favourites, cat];
-                // console.log(newFavourites);
-
-                return {
-                    favourites: newFavourites
-                }
-            })
-        }
-    }
-
-    render() {
-        return (
-            <div className="wrapper">
-                <Aside/>
-                <div className="wrapper__main">
-                    <TabsContainer addFavourites={this.addFavourites}/>
-                </div>
+    return (
+        <div className="wrapper">
+            <Aside/>
+            <div className="wrapper__main">
+                <TabsContainer addFavourites={addFavourites}/>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default App;
