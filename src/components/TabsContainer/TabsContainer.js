@@ -6,7 +6,7 @@ import Breeds from '../Breeds/Breeds';
 
 const TabsContainer = (props) => {
 
-    const [activeTab, setActiveTab] = useState("tab2");
+    const [activeTab, setActiveTab] = useState("tab1");
 
     return (
         <>

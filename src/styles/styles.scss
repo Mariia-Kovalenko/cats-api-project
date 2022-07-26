@@ -162,6 +162,87 @@ body {
     background-color: $yellow;
 }
 
+.tabContent {
+    height: 440px;
+    overflow-y: scroll;
+}
+
+.breeds__filter {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding: 15px 0;
+}
+
+.filter {    
+    background-color: $filter-bg;
+    border-radius: 20px;
+    padding: 15px;
+    width: 95%;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 2fr 2fr 40px 40px;
+    gap: 10px;
+
+    &__select {
+        width: 200px;
+    }
+
+}
+
+.label {
+    display: block;
+    color: $grey-text;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-left: 5px;
+    font-size: 12px;
+}
+
+.reload-btn {
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 10px;
+
+    margin-top: auto;
+    @include element-flex(row, center, center)
+}
+
+.breeds {
+    &__images {
+        width: 95%;
+        margin: 0 auto;
+        padding-top: 10px;
+    }
+}
+
+.grid{
+    &-block {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        // grid-template-rows: 200px;
+        gap: 10px;
+        padding-bottom: 15px;
+
+        &:not(:last-child) {
+            margin-bottom: 10px;
+        }
+    }
+
+    &-item{
+        height: 200px;
+        border-radius: 20px;
+    }
+
+    &-cat {
+        @include image;
+        border-radius: 20px;
+    }
+
+}
+
 @media screen and (max-width: 900px) {
     .wrapper{
         flex-direction: column;

@@ -2,6 +2,7 @@ import CatService from "../../services/CatService";
 import { Component } from 'react';
 import Loader from '../loader/loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
+import {BASE_URL, IMAGES} from '../../services/_constants'
 
 class RandomCat extends Component {
 
@@ -41,7 +42,7 @@ class RandomCat extends Component {
     loadCat = () => {
         this.onCatLoading();
         this.catService
-            .loadData({limit: 1, order: 'Desc', page: this.getRandomPage()})
+            .loadData(BASE_URL + IMAGES, {limit: 1, order: 'Desc', page: this.getRandomPage()})
                 .then(this.onCatLoaded)
                 .catch(this.onError)
     }
