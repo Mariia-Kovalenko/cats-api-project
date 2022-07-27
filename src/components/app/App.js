@@ -8,8 +8,8 @@ const App = () => {
     const [likes, setLikes] = useState([]);
 
     useEffect(() => {
-        console.log('favs',favourites);
-        console.log('likes',likes);
+        // console.log('favs',favourites);
+        // console.log('likes',likes);
     }, [favourites, likes])
 
     const addFavourites = (cat, mark) => {

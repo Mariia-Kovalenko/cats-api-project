@@ -11,6 +11,7 @@ const RandomCat = (props) => {
     const [error, setError] = useState(false);
 
     const catService = new CatService();
+    let catLoaded = false;
 
     useEffect(() => {
         loadCat()
@@ -28,7 +29,10 @@ const RandomCat = (props) => {
     }
 
     const onCatLoaded = (cat) => {
-        setCat(cat[0]);
+        if (!catLoaded) {
+            setCat(cat[0]);
+            catLoaded = true;
+        }
         setLoading(false);
     }
 

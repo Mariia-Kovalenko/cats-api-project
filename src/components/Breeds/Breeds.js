@@ -4,15 +4,16 @@ import CatService from "../../services/CatService";
 import {BASE_URL, BREEDS, IMAGES} from '../../services/_constants'
 import Loader from '../loader/loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
+import { colourStyles } from '../../services/_select-styles';
 
 const Breeds = () => {
     let breedsOptions = [
         {value: 'any', label: 'Any'}
     ];
     const limitOptions = [
-        {value: 3, label: '3 items per page'},
+        {value: 4, label: '4 items per page'},
         {value: 6, label: '6 items per page'},
-        {value: 9, label: '9 items per page'},
+        {value: 8, label: '8 items per page'},
     ]
 
     const [selectedBreedOption, setSelectedBreedOption] = useState(breedsOptions[0]);
@@ -30,7 +31,7 @@ const Breeds = () => {
     }, [])
 
     // console.log(breedOptions);
-    console.log(catBreeds);
+    // console.log(catBreeds);
 
     const onBreedsLoading = () => {
         setLoading(true);
@@ -73,7 +74,7 @@ const Breeds = () => {
                 if (!randomBreed) {
                     const randomId = Math.floor(Math.random() * (breeds.length - 1))
                     randomBreed = breeds[randomId];
-                    console.log(randomBreed);
+                    // console.log(randomBreed);
 
                     catService.loadData(BASE_URL + IMAGES + '?breed_ids=' + randomBreed.id, {limit: selectedFilterOption.value})
                     .then((res) => {
@@ -93,10 +94,14 @@ const Breeds = () => {
     }
 
     const loadCatBreeds = () => {
-        onBreedsLoading();
-        catService.loadData(BASE_URL + IMAGES + '?breed_ids=' + selectedBreedOption.id, {limit: selectedFilterOption.value})
-            .then(onBreedFound)
-            .catch(onError)
+            onBreedsLoading();
+            let breed = ''
+            if (selectedBreedOption.value !== 'any') {
+                breed = selectedBreedOption.id
+            }
+            catService.loadData(BASE_URL + IMAGES + '?breed_ids=' + breed, {limit: selectedFilterOption.value})
+                .then(onBreedFound)
+                .catch(onError)
     }
 
     const onBreedFound = (res) => {
@@ -129,35 +134,8 @@ const Breeds = () => {
 
     // console.log('selected breed:', selectedBreedOption);
     // console.log('selected filter:', selectedFilterOption);
-    const colourStyles = {
-        control: (styles) => (
-            { 
-                ...styles, 
-                backgroundColor: "white", 
-                width: '200px',
-                height: '40px',
-                border: 0,
-                boxShadow: 'none',
-                borderRadius: '10px',
-            }),
-        option: (styles, { isDisabled, isFocused }) => {
-            return {
-            ...styles,
-            backgroundColor: isFocused ? "lightgrey" : "white",
-            width: '200px',
-            color: "#000",
-            cursor: isDisabled ? "not-allowed" : "default",
-            };
-        },
-    };
 
     function renderItems(arr) {
-        // if (!arr.length) {
-        //     console.log('any breed');
-        //     return (
-        //         <div>Select breed to load images</div>
-        //     )
-        // }
         const items = arr.map(item => {
             return (
                 <div key={item.id} className="grid-item">
@@ -180,27 +158,27 @@ const Breeds = () => {
 
     return (
         <div className="breeds">
-            <div className="breeds__filter">
+            <div className="component__filter">
                 <div className="filter">
-                <div id="breeds-filter" className="filter__select">
-                    <label className="label">Breed</label>
-                    <Select 
-                    defaultValue={selectedBreedOption}
-                    onChange={setSelectedBreedOption}
-                    options={breedOptions}
-                    styles={colourStyles}/>
+                    <div id="breeds-filter" className="filter__select">
+                        <label className="label">Breed</label>
+                        <Select 
+                        defaultValue={selectedBreedOption}
+                        onChange={setSelectedBreedOption}
+                        options={breedOptions}
+                        styles={colourStyles}/>
+                    </div>
+                    <div id="limit-filter" className="filter__select">
+                        <label className="label">Limit</label>
+                        <Select 
+                        defaultValue={selectedFilterOption}
+                        onChange={setSelectedFilterOption}
+                        options={limitOptions}
+                        styles={colourStyles}/>
+                    </div>
+                    <button onClick={loadCatBreeds} className="reload-btn"><img src="images/search.svg"/></button>
+                    <button onClick={loadCatBreeds} className="reload-btn"><img src="images/reload.svg"/></button>
                 </div>
-                <div id="limit-filter" className="filter__select">
-                    <label className="label">Limit</label>
-                    <Select 
-                    defaultValue={selectedFilterOption}
-                    onChange={setSelectedFilterOption}
-                    options={limitOptions}
-                    styles={colourStyles}/>
-                </div>
-                <button onClick={loadCatBreeds} className="reload-btn"><img src="images/search.svg"/></button>
-                <button onClick={loadCatBreeds} className="reload-btn"><img src="images/reload.svg"/></button>
-            </div>
             </div>
             
             <div className="breeds__images">

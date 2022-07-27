@@ -3,10 +3,11 @@ import {useState} from 'react';
 import TabNavItem from '../TabNavItem/TabNavItem';
 import TabContent from '../TabContent/TabContent';
 import Breeds from '../Breeds/Breeds';
+import Gallery from '../Gallery/Gallery';
 
 const TabsContainer = (props) => {
 
-    const [activeTab, setActiveTab] = useState("tab1");
+    const [activeTab, setActiveTab] = useState("tab3");
 
     return (
         <>
@@ -25,7 +26,7 @@ const TabsContainer = (props) => {
                         <Breeds/>
                     </TabContent>
                     <TabContent id="tab3" activeTab={activeTab}>
-                        <div>Gallery</div>
+                        <Gallery/>
                     </TabContent>
                     <TabContent id="tab4" activeTab={activeTab}>
                         <div>Favourites</div>

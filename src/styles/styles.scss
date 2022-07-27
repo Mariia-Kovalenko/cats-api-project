@@ -164,10 +164,10 @@ body {
 
 .tabContent {
     height: 440px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
-.breeds__filter {
+.component__filter {
     position: sticky;
     top: 0;
     background-color: white;
@@ -189,6 +189,10 @@ body {
         width: 200px;
     }
 
+    &.gallery-filter {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
 }
 
 .label {
@@ -201,6 +205,7 @@ body {
 }
 
 .reload-btn {
+    min-width: 40px;
     width: 40px;
     height: 40px;
     background: white;
@@ -241,6 +246,12 @@ body {
         border-radius: 20px;
     }
 
+}
+
+.not-fount-message {
+    text-align: center;
+    font-size: 18px;
+    color: $dark-pink;
 }
 
 @media screen and (max-width: 900px) {
