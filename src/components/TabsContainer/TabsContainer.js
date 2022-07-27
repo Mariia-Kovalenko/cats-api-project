@@ -7,7 +7,7 @@ import Gallery from '../Gallery/Gallery';
 
 const TabsContainer = (props) => {
 
-    const [activeTab, setActiveTab] = useState("tab3");
+    const [activeTab, setActiveTab] = useState("tab2");
 
     return (
         <>
@@ -23,10 +23,10 @@ const TabsContainer = (props) => {
                         <RandomCat addFavourites={props.addFavourites}/>
                     </TabContent>
                     <TabContent id="tab2" activeTab={activeTab}>
-                        <Breeds/>
+                        <Breeds addFavourites={props.addFavourites}/>
                     </TabContent>
                     <TabContent id="tab3" activeTab={activeTab}>
-                        <Gallery/>
+                        <Gallery addFavourites={props.addFavourites}/>
                     </TabContent>
                     <TabContent id="tab4" activeTab={activeTab}>
                         <div>Favourites</div>

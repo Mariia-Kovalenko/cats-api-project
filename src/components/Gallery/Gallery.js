@@ -6,7 +6,7 @@ import {BASE_URL, BREEDS, IMAGES} from '../../services/_constants'
 import Loader from '../loader/loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
 
-const Gallery = () => {
+const Gallery = (props) => {
 
     let breedsOptions = [
         {value: 'any', label: 'Any'}
@@ -41,6 +41,11 @@ const Gallery = () => {
         setError(true);
         setLoading(false);
     }
+
+    const addFavourites = (cat, mark) => {
+        props.addFavourites(cat, mark);
+    }
+
 
     const onRequest = () => {
         console.log('request');
@@ -130,6 +135,16 @@ const Gallery = () => {
             return (
                 <div key={item.id} className="grid-item">
                     <img className="grid-cat" src={item.url} alt="cat"></img>
+                    <div className="item-hover-trigger">
+                        <div className="like-btns-white">
+                        <button onClick={() => addFavourites(item, 'like')}>
+                            <img src='images/heart-pink.svg'></img>
+                        </button>
+                        <button onClick={() => addFavourites(item, 'fav')}>
+                            <img src='images/star-pink.svg'></img>
+                        </button>
+                        </div>
+                    </div>
                 </div>
             )
         })

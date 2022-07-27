@@ -6,7 +6,7 @@ import Loader from '../loader/loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
 import { colourStyles } from '../../services/_select-styles';
 
-const Breeds = () => {
+const Breeds = (props) => {
     let breedsOptions = [
         {value: 'any', label: 'Any'}
     ];
@@ -35,6 +35,9 @@ const Breeds = () => {
 
     const onBreedsLoading = () => {
         setLoading(true);
+    }
+    const addFavourites = (cat, mark) => {
+        props.addFavourites(cat, mark);
     }
 
     const onRequest = (limit = 67) => {
@@ -105,10 +108,21 @@ const Breeds = () => {
     }
 
     const onBreedFound = (res) => {
+        // console.log(res[0]);
         const cats = res.map(cat => {
+            const {id, url} = cat;
+            const breed = cat.breeds[0];
+            const {description, origin, temperament, weight: {metric}, life_span} = breed
             return {
-                id: cat.id,
-                url: cat.url
+                id: id,
+                url: url,
+                breed: {
+                    description,
+                    origin,
+                    temperament,
+                    metric,
+                    life_span
+                }
             }
         })
 
@@ -131,6 +145,12 @@ const Breeds = () => {
         if (catBreeds.length) setLoading(false);
     }
 
+    const showInfo = (item) => {
+        // console.log(item);
+        
+        const cat = catBreeds.find(cat => cat.id === item.id)
+        console.log(cat.breed);
+    }
 
     // console.log('selected breed:', selectedBreedOption);
     // console.log('selected filter:', selectedFilterOption);
@@ -140,6 +160,19 @@ const Breeds = () => {
             return (
                 <div key={item.id} className="grid-item">
                     <img className="grid-cat" src={item.url} alt="cat"></img>
+                    <div className="item-hover-trigger">
+                        <div className="like-btns-white">
+                        <button onClick={() => addFavourites(item, 'like')}>
+                            <img src='images/heart-pink.svg'></img>
+                        </button>
+                        <button onClick={() => addFavourites(item, 'fav')}>
+                            <img src='images/star-pink.svg'></img>
+                        </button>
+                        <button onClick={() => showInfo(item)} className="btn-info">
+                            i
+                        </button>
+                        </div>
+                    </div>
                 </div>
             )
         })
