@@ -4,10 +4,28 @@ import TabNavItem from '../TabNavItem/TabNavItem';
 import TabContent from '../TabContent/TabContent';
 import Breeds from '../Breeds/Breeds';
 import Gallery from '../Gallery/Gallery';
+import BreedDetails from '../BreedDetails/BreedDetails';
 
 const TabsContainer = (props) => {
 
     const [activeTab, setActiveTab] = useState("tab2");
+    const [activeBreedsChild, setActiveBreedsChild] = useState('breeds-list');
+    const [catInfo, setCatInfo] = useState({});
+
+    console.log('cat received', catInfo);
+
+    const showData = (cat) => {
+        if (activeBreedsChild === "breeds-list") {
+            setActiveBreedsChild('breeds-details')
+            setCatInfo(cat)
+        }
+        if (activeBreedsChild === "breeds-details") {
+            setActiveBreedsChild('breeds-list')
+            setCatInfo({})
+        }
+    }
+
+    const content = activeBreedsChild === 'breeds-list' ? <Breeds id="breeds-list" addFavourites={props.addFavourites} showData={showData}/> : <BreedDetails id="breeds-details" showData={showData} catInfo={catInfo}/>
 
     return (
         <>
@@ -23,7 +41,9 @@ const TabsContainer = (props) => {
                         <RandomCat addFavourites={props.addFavourites}/>
                     </TabContent>
                     <TabContent id="tab2" activeTab={activeTab}>
-                        <Breeds addFavourites={props.addFavourites}/>
+                        {content}
+                        {/* <Breeds id="breeds-list" addFavourites={props.addFavourites} showInfo={showInfo}/>
+                        <BreedDetails id="breeds-details" showInfo={showInfo}/> */}
                     </TabContent>
                     <TabContent id="tab3" activeTab={activeTab}>
                         <Gallery addFavourites={props.addFavourites}/>

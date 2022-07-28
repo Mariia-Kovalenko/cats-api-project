@@ -303,6 +303,92 @@ body {
     font-size: 24px;
 }
 
+.cat {
+    &__info {
+        width: 95%;
+        margin: 0 auto;
+        padding-top: 15px;
+    }
+    &__slider {
+        margin-bottom: 30px;
+    }
+    &__description {
+        border-radius: 20px;
+        border: 1.5px solid $light-pink;
+        padding: 15px;
+    }
+}
+
+.description {
+    position: relative;
+    &__name {
+        font-weight: 500;
+        font-size: 20px;
+        color: $black;
+        text-align: center;
+        padding: 5px 20px;
+        background-color: white;
+        position: absolute;
+        top: -18px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    &__text {
+        text-align: center;
+        color: $grey-text;
+        font-size: 12px;
+        max-width: 80%;
+        margin: 15px auto;
+    }
+
+    &__traits {
+        font-size: 14px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 20px;
+    }
+    &__img {
+        // width: 95%;
+        height: 250px;
+        // margin: 0 auto;
+    
+        & img {
+            @include image;
+            border-radius: 20px
+        }
+    }
+}
+
+.trait {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+
+    &__title {
+        font-weight: 600;
+        color: $black;
+    }
+    &__text {
+        font-size: 12px;
+        color: $grey-text;
+    }
+}
+
+.back-btn {
+    @include element-flex(row, center, center);
+    color: $grey-text;
+    // background-color: $light-pink;
+    font-weight: 400;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 10px;
+    // border-radius: 10px;
+    margin: 10px auto;
+    // @include shadow;
+}
+
 @media screen and (max-width: 900px) {
     .wrapper{
         flex-direction: column;

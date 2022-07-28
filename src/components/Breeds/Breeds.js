@@ -112,11 +112,12 @@ const Breeds = (props) => {
         const cats = res.map(cat => {
             const {id, url} = cat;
             const breed = cat.breeds[0];
-            const {description, origin, temperament, weight: {metric}, life_span} = breed
+            const {name, description, origin, temperament, weight: {metric}, life_span} = breed
             return {
                 id: id,
                 url: url,
                 breed: {
+                    name, 
                     description,
                     origin,
                     temperament,
@@ -149,7 +150,9 @@ const Breeds = (props) => {
         // console.log(item);
         
         const cat = catBreeds.find(cat => cat.id === item.id)
-        console.log(cat.breed);
+        // console.log(cat.breed);
+
+        props.showData(cat);
     }
 
     // console.log('selected breed:', selectedBreedOption);
@@ -215,9 +218,9 @@ const Breeds = (props) => {
             </div>
             
             <div className="breeds__images">
-            {errorMessage}
-            {spinner}
-            {content}
+                {errorMessage}
+                {spinner}
+                {content}
             </div>
         </div>
     );
