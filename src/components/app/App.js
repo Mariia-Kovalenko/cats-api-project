@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Aside from "../aside/aside";
 import TabsContainer from "../TabsContainer/TabsContainer";
 import CatService from "../../services/CatService";
+import {BASE_URL} from '../../services/_constants';
 
 const App = () => {
 
@@ -10,7 +11,7 @@ const App = () => {
     const addFavourites = (imageId) => {
         const user = 'User-123';
 
-        catService.postData('https://api.thecatapi.com/v1/favourites', imageId, user)
+        catService.postData(BASE_URL + 'favourites', imageId, user)
             .then(res => {
                 console.log(res.data.message);
             })

@@ -5,6 +5,7 @@ import TabContent from '../TabContent/TabContent';
 import Breeds from '../Breeds/Breeds';
 import Gallery from '../Gallery/Gallery';
 import BreedDetails from '../BreedDetails/BreedDetails';
+import Favourites from '../Favourites/Favourites';
 
 const TabsContainer = (props) => {
 
@@ -49,7 +50,7 @@ const TabsContainer = (props) => {
                         <Gallery addFavourites={props.addFavourites}/>
                     </TabContent>
                     <TabContent id="tab4" activeTab={activeTab}>
-                        <div>Favourites</div>
+                        <Favourites/>
                     </TabContent>
                 </div>
             </div>

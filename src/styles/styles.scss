@@ -389,6 +389,12 @@ body {
     // @include shadow;
 }
 
+.favourites__container {
+    padding: 15px 0;
+    max-width: 95%;
+    margin: 0 auto;
+}
+
 @media screen and (max-width: 900px) {
     .wrapper{
         flex-direction: column;
