@@ -36,8 +36,8 @@ const Breeds = (props) => {
     const onBreedsLoading = () => {
         setLoading(true);
     }
-    const addFavourites = (cat, mark) => {
-        props.addFavourites(cat, mark);
+    const addFavourites = (imageId) => {
+        props.addFavourites(imageId);
     }
 
     const onRequest = (limit = 67) => {
@@ -165,10 +165,10 @@ const Breeds = (props) => {
                     <img className="grid-cat" src={item.url} alt="cat"></img>
                     <div className="item-hover-trigger">
                         <div className="like-btns-white">
-                        <button onClick={() => addFavourites(item, 'like')}>
+                        {/* <button onClick={() => addFavourites(item, 'like')}>
                             <img src='images/heart-pink.svg'></img>
-                        </button>
-                        <button onClick={() => addFavourites(item, 'fav')}>
+                        </button> */}
+                        <button onClick={() => addFavourites(item.id)}>
                             <img src='images/star-pink.svg'></img>
                         </button>
                         <button onClick={() => showInfo(item)} className="btn-info">

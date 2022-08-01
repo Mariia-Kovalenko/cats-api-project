@@ -11,15 +11,21 @@ class CatService {
             axios.defaults.headers.common['x-api-key'] = API_KEY;
     
             let response = await axios.get(url, 
-                { params: params
-                    // { 
-                    //     limit:1, 
-                    //     size:"full" 
-                    // } 
-                } ) // Ask for 1 Image, at full resolution
+                { params: params } ) // Ask for 1 Image, at full resolution
                             
             return response.data;
         } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    async postData(url, imageId, user) {
+        try {
+            return axios.post(url, {
+                image_id: imageId,
+                sub_id: user
+            })
+        }catch (error) {
             console.log(error.message);
         }
     }

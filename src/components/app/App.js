@@ -1,24 +1,22 @@
 import { useState, useEffect } from "react";
 import Aside from "../aside/aside";
 import TabsContainer from "../TabsContainer/TabsContainer";
+import CatService from "../../services/CatService";
 
 const App = () => {
 
-    const [favourites, setFavourites] = useState([]);
-    const [likes, setLikes] = useState([]);
+    const catService = new CatService();
 
-    useEffect(() => {
-        console.log('favs',favourites);
-        console.log('likes',likes);
-    }, [favourites, likes])
+    const addFavourites = (imageId) => {
+        const user = 'User-123';
 
-    const addFavourites = (cat, mark) => {
-        // console.log(mark);
-        if (mark === 'fav') {
-            setFavourites(favourites => [...favourites, cat])
-        } else if (mark === 'like') {
-            setLikes(likes => [...likes, cat])
-        }
+        catService.postData('https://api.thecatapi.com/v1/favourites', imageId, user)
+            .then(res => {
+                console.log(res.data.message);
+            })
+            .catch(err => {
+                console.log(err.message);
+            })
     }
 
     return (

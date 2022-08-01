@@ -42,8 +42,8 @@ const Gallery = (props) => {
         setLoading(false);
     }
 
-    const addFavourites = (cat, mark) => {
-        props.addFavourites(cat, mark);
+    const addFavourites = (imageId) => {
+        props.addFavourites(imageId);
     }
 
 
@@ -137,12 +137,12 @@ const Gallery = (props) => {
                     <img className="grid-cat" src={item.url} alt="cat"></img>
                     <div className="item-hover-trigger">
                         <div className="like-btns-white">
-                        <button onClick={() => addFavourites(item, 'like')}>
+                        <button onClick={() => addFavourites(item.id)}>
                             <img src='images/heart-pink.svg'></img>
                         </button>
-                        <button onClick={() => addFavourites(item, 'fav')}>
+                        {/* <button onClick={() => addFavourites(item, 'fav')}>
                             <img src='images/star-pink.svg'></img>
-                        </button>
+                        </button> */}
                         </div>
                     </div>
                 </div>
