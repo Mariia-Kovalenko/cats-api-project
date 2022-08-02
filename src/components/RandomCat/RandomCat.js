@@ -29,6 +29,7 @@ const RandomCat = (props) => {
     }
 
     const onCatLoaded = (cat) => {
+        // console.log(cat);
         if (!catLoaded) {
             setCat(cat[0]);
             catLoaded = true;
@@ -47,8 +48,8 @@ const RandomCat = (props) => {
         return Math.floor(Math.random() * 3000);
     }
 
-    const addFavourites = (cat, mark) => {
-        props.addFavourites(cat, mark);
+    const addFavourites = (cat) => {
+        props.addFavourites(cat);
         loadCat();
     }
 
@@ -68,16 +69,12 @@ const RandomCat = (props) => {
             {content}
             {errorMessage}
             <div className={buttonsClasses}>
-                <button  className="cat__button dislike">
+                <button onClick={loadCat} className="cat__button dislike">
                     <img src="images/dislike-white.svg" alt='dislike'></img>
                 </button>
 
-                <button onClick={() => addFavourites(cat, 'like')} className="cat__button like">
+                <button onClick={() => addFavourites(cat.id)} className="cat__button like">
                     <img src="images/heart-white.svg" alt='like'></img>
-                </button>
-
-                <button onClick={() => addFavourites(cat, 'fav')} className="cat__button fav">
-                    <img src="images/star-white.svg" alt='fav'></img>
                 </button>
             </div>
         </div>

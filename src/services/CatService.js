@@ -12,7 +12,6 @@ class CatService {
     
             let response = await axios.get(url, 
                 { params: params } ) // Ask for 1 Image, at full resolution
-                            
             return response.data;
         } catch (error) {
             console.log(error.message);
@@ -25,6 +24,16 @@ class CatService {
                 image_id: imageId,
                 sub_id: user
             })
+        }catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    async deleteData(url, imageId) {
+        // console.log(url);
+        console.log('delete');
+        try {
+            return axios.delete(url + '/' + imageId)
         }catch (error) {
             console.log(error.message);
         }

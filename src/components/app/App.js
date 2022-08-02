@@ -9,7 +9,7 @@ const App = () => {
     const catService = new CatService();
 
     const addFavourites = (imageId) => {
-        const user = 'User-123';
+        const user = 'User-007';
 
         catService.postData(BASE_URL + 'favourites', imageId, user)
             .then(res => {

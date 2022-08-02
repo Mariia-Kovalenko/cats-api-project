@@ -169,7 +169,7 @@ const Breeds = (props) => {
                             <img src='images/heart-pink.svg'></img>
                         </button> */}
                         <button onClick={() => addFavourites(item.id)}>
-                            <img src='images/star-pink.svg'></img>
+                            <img src='images/heart-pink.svg'></img>
                         </button>
                         <button onClick={() => showInfo(item)} className="btn-info">
                             i
