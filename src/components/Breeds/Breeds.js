@@ -65,6 +65,7 @@ const Breeds = (props) => {
         onBreedsLoading();
         catService.loadData(BASE_URL + BREEDS, {limit: limit})
             .then((res) => {
+                // load list of breeds
                 const breeds  = res.map(breed => {
                     const {id, name} = breed;
                     return {
@@ -101,6 +102,9 @@ const Breeds = (props) => {
             let breed = ''
             if (selectedBreedOption.value !== 'any') {
                 breed = selectedBreedOption.id
+            } else {
+                const randomId = Math.floor(Math.random() * (breedOptions.length - 1))
+                breed = breedOptions[randomId].id;
             }
             catService.loadData(BASE_URL + IMAGES + '?breed_ids=' + breed, {limit: selectedFilterOption.value})
                 .then(onBreedFound)
@@ -165,9 +169,6 @@ const Breeds = (props) => {
                     <img className="grid-cat" src={item.url} alt="cat"></img>
                     <div className="item-hover-trigger">
                         <div className="like-btns-white">
-                        {/* <button onClick={() => addFavourites(item, 'like')}>
-                            <img src='images/heart-pink.svg'></img>
-                        </button> */}
                         <button onClick={() => addFavourites(item.id)}>
                             <img src='images/heart-pink.svg'></img>
                         </button>
