@@ -106,6 +106,7 @@ const Breeds = (props) => {
                 const randomId = Math.floor(Math.random() * (breedOptions.length - 1))
                 breed = breedOptions[randomId].id;
             }
+            console.log('breed to search', breed);
             catService.loadData(BASE_URL + IMAGES + '?breed_ids=' + breed, {limit: selectedFilterOption.value})
                 .then(onBreedFound)
                 .catch(onError)
@@ -116,9 +117,11 @@ const Breeds = (props) => {
         const cats = res.map(cat => {
             const {id, url} = cat;
             const breed = cat.breeds[0];
+            // console.log(breed);
             const {name, description, origin, temperament, weight: {metric}, life_span} = breed
             return {
                 id: id,
+                breedId: breed.id,
                 url: url,
                 breed: {
                     name, 
