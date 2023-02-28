@@ -7,11 +7,33 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #fff; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #c7c7c7; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a4a4a4; 
+  }
+
 .btn {
     display: block;
     @include element-flex(row, center, center);
+    min-width: 50px;
     width: 50px;
     height: 50px;
+    max-height: 50px;
     background: white;
     border-radius: 10px;
     transition: .3s;
@@ -95,7 +117,7 @@ body {
         height: 500px;
         background-color: white;
         @include shadow;
-        border-radius: 20px;
+        border-radius: 20px 20px 0 0;
     }
     &__list {
         display: flex;
@@ -139,7 +161,7 @@ body {
         position: relative;
     }
     &__image {
-        width: 500px;
+        width: 90%;
         height: 350px;
 
         & img {
@@ -204,8 +226,14 @@ body {
     margin: 0 auto;
 
     display: grid;
-    grid-template-columns: 2fr 2fr 40px 40px;
+    grid-template-columns: 3fr 3fr 1fr;
     gap: 10px;
+
+    &__buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
 
     &__select {
         width: 200px;
@@ -296,26 +324,6 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    // & button {
-    //     @include element-flex(row, center, center);
-    //     width: 50px;
-    //     height: 50px;
-    //     background: white;
-    //     border-radius: 10px;
-    //     transition: .3s;
-    //     color: variables.$pink;
-
-    //     cursor: pointer;
-        
-    //     &.delete {
-    //         width: 80px;
-    //     }
-
-    //     &:hover {
-    //         background: variables.$light-pink;
-    //     }
-    // }
 }
 
 
@@ -530,14 +538,67 @@ body {
         flex-direction: column;
         gap: 30px;
 
-        padding: 50px 0;
+        padding: 50px 0 10px;
     }
     .aside {
         width: 100%;
     }
 
+    .filter {
+        &__select {
+            width: 100%;
+        }
+    }
+
     .tabs-container {
-        width: 95%;
-        margin: 0 auto;
+        height: 600px;
+        width: 90%;
+    }
+
+    .tabContent {
+        height: 540px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .aside {
+        &__heading {
+            font-size: 26px;
+        }
+        &__desc {
+            font-size: 13px;
+        }
+        &__button {
+            height: 50px;
+            & img {
+                height: 40px;
+                width: 40px;
+            }
+        }
+    }
+    .filter {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .grid {
+        &-block {
+            grid-template-columns: 1fr;
+        }
+        &-item {
+            height: 300px;
+        }
+    }
+
+    .tabs__name {
+        font-size: 13px;
+    }
+
+    .not-fount-message {
+        font-size: 14px;
     }
 }

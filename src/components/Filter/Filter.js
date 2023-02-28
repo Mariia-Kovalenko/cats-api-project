@@ -47,16 +47,19 @@ const Filter = ({
                     />
                 </div>
             )}
-            <ActionButton
-                action={SEARCH}
-                onClick={onSearch}
-                imageSrc={"images/search.svg"}
-            />
-            <ActionButton
-                action={RELOAD}
-                onClick={onReload}
-                imageSrc={"images/reload.svg"}
-            />
+            <div className='filter__buttons'>
+                <ActionButton
+                    action={SEARCH}
+                    onClick={onSearch}
+                    imageSrc={"images/search.svg"}
+                />
+                <ActionButton
+                    action={RELOAD}
+                    onClick={onReload}
+                    imageSrc={"images/reload.svg"}
+                />
+            </div>
+            
         </div>
     );
 };
