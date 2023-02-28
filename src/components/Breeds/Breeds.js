@@ -1,37 +1,36 @@
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import CatService from "../../services/CatService";
-import {BASE_URL, BREEDS, IMAGES} from '../../services/_constants'
-import Loader from '../loader/loader';
+import {ADD_FAVOURITES, ANY_CATEGORY, BASE_URL, BREEDS, DATA_LIMIT, IMAGES, INFO, LIMIT_OPTIONS} from '../../utils/_constants'
+import Loader from '../../common/Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
-import { colourStyles } from '../../services/_select-styles';
+import { colourStyles } from '../../utils/_select-styles';
+import ActionButton from "../../common/ActionButton/ActionButton";
+import Filter from "../Filter/Filter";
 
 const Breeds = (props) => {
     let breedsOptions = [
-        {value: 'any', label: 'Any'}
+        {value: ANY_CATEGORY, label: 'Any'}
     ];
-    const limitOptions = [
-        {value: 4, label: '4 items per page'},
-        {value: 6, label: '6 items per page'},
-        {value: 8, label: '8 items per page'},
-    ]
+    
 
     const [selectedBreedOption, setSelectedBreedOption] = useState(breedsOptions[0]);
     const [breedOptions, setBreedsOptions] = useState(breedsOptions);
-    const [selectedFilterOption, setSelectedFilterOption] = useState(limitOptions[0]);
+    const [selectedFilterOption, setSelectedFilterOption] = useState(LIMIT_OPTIONS[0]);
     const [catBreeds, setCatBreeds] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    const catService = new CatService();
     let randomBreed = null;
 
     useEffect(() => {
         initialRequest()
     }, [])
 
-    // console.log(breedOptions);
-    // console.log(catBreeds);
+    const onError = () => {
+        setError(true);
+        setLoading(false);
+    }
 
     const onBreedsLoading = () => {
         setLoading(true);
@@ -40,30 +39,36 @@ const Breeds = (props) => {
         props.addFavourites(imageId);
     }
 
-    const onRequest = (limit = 67) => {
-        console.log('request');
+    // const onRequest = (limit = 67) => {
+    //     console.log('request to local server');
+    //     axios.post('http://localhost:8080/api/auth/register', {
+    //         username: "React",
+    //         password: "react"
+    //     })
+    //     .then(res => {
+    //         console.log('connected to server');
+    //         console.log(res);
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //     })
+    // }
+
+    // const loadDefaultBreeds = () => {
+    //     // onBreedsLoading();
+
+    //     const randomId = Math.floor(Math.random() * (breedOptions.length - 1))
+    //     const randomBreed = breedOptions[randomId];
+    //     console.log(randomBreed);
+
+    //     CatService.loadData(BASE_URL + IMAGES + '?breed_ids=' + randomBreed.id, {limit: selectedFilterOption.value})
+    //         .then(onBreedFound)
+    //         .catch(onError)
+    // }
+
+    const initialRequest = (limit = DATA_LIMIT) => {
         onBreedsLoading();
-        catService.loadData(BASE_URL + BREEDS, {limit: limit})
-            .then(onBreedsListLoaded)
-            .catch(onError)
-    }
-
-    const loadDefaultBreeds = () => {
-        // onBreedsLoading();
-
-        const randomId = Math.floor(Math.random() * (breedOptions.length - 1))
-        const randomBreed = breedOptions[randomId];
-        console.log(randomBreed);
-
-        catService.loadData(BASE_URL + IMAGES + '?breed_ids=' + randomBreed.id, {limit: selectedFilterOption.value})
-            .then(onBreedFound)
-            .catch(onError)
-    }
-
-    const initialRequest = (limit = 67) => {
-        console.log('request');
-        onBreedsLoading();
-        catService.loadData(BASE_URL + BREEDS, {limit: limit})
+        CatService.loadData(BASE_URL + BREEDS, {limit: limit})
             .then((res) => {
                 // load list of breeds
                 const breeds  = res.map(breed => {
@@ -78,9 +83,8 @@ const Breeds = (props) => {
                 if (!randomBreed) {
                     const randomId = Math.floor(Math.random() * (breeds.length - 1))
                     randomBreed = breeds[randomId];
-                    // console.log(randomBreed);
 
-                    catService.loadData(BASE_URL + IMAGES + '?breed_ids=' + randomBreed.id, {limit: selectedFilterOption.value})
+                    CatService.loadData(BASE_URL + IMAGES + '?breed_ids=' + randomBreed.id, {limit: selectedFilterOption.value})
                     .then((res) => {
                         setBreedsOptions([...breeds]);
                         onBreedFound(res);
@@ -92,11 +96,6 @@ const Breeds = (props) => {
             .catch(onError)
     }
 
-    const onError = () => {
-        setError(true);
-        setLoading(false);
-    }
-
     const loadCatBreeds = () => {
             onBreedsLoading();
             let breed = ''
@@ -106,18 +105,16 @@ const Breeds = (props) => {
                 const randomId = Math.floor(Math.random() * (breedOptions.length - 1))
                 breed = breedOptions[randomId].id;
             }
-            console.log('breed to search', breed);
-            catService.loadData(BASE_URL + IMAGES + '?breed_ids=' + breed, {limit: selectedFilterOption.value})
+
+            CatService.loadData(BASE_URL + IMAGES + '?breed_ids=' + breed, {limit: selectedFilterOption.value})
                 .then(onBreedFound)
                 .catch(onError)
     }
 
     const onBreedFound = (res) => {
-        // console.log(res[0]);
-        const cats = res.map(cat => {
+        const cats = res.map((cat) => {
             const {id, url} = cat;
             const breed = cat.breeds[0];
-            // console.log(breed);
             const {name, description, origin, temperament, weight: {metric}, life_span} = breed
             return {
                 id: id,
@@ -138,46 +135,43 @@ const Breeds = (props) => {
         setLoading(false);
     }
 
-    const onBreedsListLoaded = (res) => {
-        const breeds  = res.map(breed => {
-            const {id, name} = breed;
-            return {
-                value: name,
-                label: name,
-                id: id
-            }
-        })
+    // const onBreedsListLoaded = (res) => {
+    //     const breeds  = res.map(breed => {
+    //         const {id, name} = breed;
+    //         return {
+    //             value: name,
+    //             label: name,
+    //             id: id
+    //         }
+    //     })
 
-        setBreedsOptions(breedOptions => [...breeds]);
-        // console.log(catBreeds);
-        if (catBreeds.length) setLoading(false);
-    }
+    //     setBreedsOptions(breedOptions => [...breeds]);
+    //     // console.log(catBreeds);
+    //     if (catBreeds.length) setLoading(false);
+    // }
 
     const showInfo = (item) => {
-        // console.log(item);
-        
         const cat = catBreeds.find(cat => cat.id === item.id)
-        // console.log(cat.breed);
-
         props.showData(cat);
     }
-
-    // console.log('selected breed:', selectedBreedOption);
-    // console.log('selected filter:', selectedFilterOption);
 
     function renderItems(arr) {
         const items = arr.map(item => {
             return (
                 <div key={item.id} className="grid-item">
-                    <img className="grid-cat" src={item.url} alt="cat"></img>
+                    <img className="grid-cat" src={item.url} alt="cat"/>
                     <div className="item-hover-trigger">
                         <div className="like-btns-white">
-                        <button onClick={() => addFavourites(item.id)}>
-                            <img src='images/heart-pink.svg'></img>
-                        </button>
-                        <button onClick={() => showInfo(item)} className="btn-info">
-                            i
-                        </button>
+                            <ActionButton 
+                                action={ADD_FAVOURITES} 
+                                onClick={() => addFavourites(item.id)} 
+                                imageSrc={'images/heart-pink.svg'} 
+                            />
+                            <ActionButton 
+                                action={INFO}
+                                onClick={() => showInfo(item)}
+                                text={'i'} 
+                            />
                         </div>
                     </div>
                 </div>
@@ -199,26 +193,21 @@ const Breeds = (props) => {
     return (
         <div className="breeds">
             <div className="component__filter">
-                <div className="filter">
-                    <div id="breeds-filter" className="filter__select">
-                        <label className="label">Breed</label>
-                        <Select 
-                        defaultValue={selectedBreedOption}
-                        onChange={setSelectedBreedOption}
-                        options={breedOptions}
-                        styles={colourStyles}/>
-                    </div>
-                    <div id="limit-filter" className="filter__select">
-                        <label className="label">Limit</label>
-                        <Select 
-                        defaultValue={selectedFilterOption}
-                        onChange={setSelectedFilterOption}
-                        options={limitOptions}
-                        styles={colourStyles}/>
-                    </div>
-                    <button onClick={loadCatBreeds} className="reload-btn"><img src="images/search.svg"/></button>
-                    <button onClick={loadCatBreeds} className="reload-btn"><img src="images/reload.svg"/></button>
-                </div>
+                <Filter
+                    breedsFilter={{
+                        show: true,
+                        defaultValue: selectedBreedOption,
+                        onChange: setSelectedBreedOption,
+                        options: breedOptions
+                    }}
+                    limitFilter={{
+                        show: true,
+                        defaultValue: selectedFilterOption,
+                        onChange: setSelectedFilterOption,
+                    }}
+                    onSearch={loadCatBreeds}
+                    onReload={loadCatBreeds}
+                />
             </div>
             
             <div className="breeds__images">

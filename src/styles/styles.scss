@@ -1,10 +1,31 @@
-@import './_variables.scss';
+@use 'variables';
 @import './mixins.scss';
 @import './clear-styles.scss';
 
 body {
-    background-color: $bg-color;
+    background-color: variables.$bg-color;
     font-family: 'Inter', sans-serif;
+}
+
+.btn {
+    display: block;
+    @include element-flex(row, center, center);
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 10px;
+    transition: .3s;
+    color: variables.$pink;
+
+    cursor: pointer;
+    
+    &.delete {
+        width: 80px;
+    }
+
+    &:hover {
+        background: variables.$light-pink;
+    }
 }
 
 .hide {
@@ -52,7 +73,7 @@ body {
     &__desc {
         font-weight: 400;
         font-size: 18px;
-        color: $grey-text;
+        color: variables.$grey-text;
         text-align: center;
 
         max-width: 350px;
@@ -83,7 +104,7 @@ body {
         flex: 25%;
 
         @include element-flex(column, space-between, center);
-        background-color: $black;
+        background-color: variables.$black;
         color: white;
         transition: .3s;
 
@@ -95,8 +116,8 @@ body {
         }
 
         &.active {
-            background-color: $light-pink;
-            color: $black;
+            background-color: variables.$light-pink;
+            color: variables.$black;
         }
 
         &:first-child {
@@ -151,15 +172,15 @@ body {
 }
 
 .dislike {
-    background-color: $dark-pink;
+    background-color: variables.$dark-pink;
 }
 
 .like {
-    background-color: $green;
+    background-color: variables.$green;
 }
 
 .fav {
-    background-color: $yellow;
+    background-color: variables.$yellow;
 }
 
 .tabContent {
@@ -176,7 +197,7 @@ body {
 }
 
 .filter {    
-    background-color: $filter-bg;
+    background-color: variables.$filter-bg;
     border-radius: 20px;
     padding: 15px;
     width: 95%;
@@ -198,7 +219,7 @@ body {
 
 .label {
     display: block;
-    color: $grey-text;
+    color: variables.$grey-text;
     text-transform: uppercase;
     margin-bottom: 8px;
     padding-left: 5px;
@@ -276,35 +297,36 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
 
-    & button {
-        @include element-flex(row, center, center);
-        width: 50px;
-        height: 50px;
-        background: white;
-        border-radius: 10px;
-        transition: .3s;
-        color: $pink;
+    // & button {
+    //     @include element-flex(row, center, center);
+    //     width: 50px;
+    //     height: 50px;
+    //     background: white;
+    //     border-radius: 10px;
+    //     transition: .3s;
+    //     color: variables.$pink;
 
-        cursor: pointer;
+    //     cursor: pointer;
         
-        &.delete {
-            width: 80px;
-        }
+    //     &.delete {
+    //         width: 80px;
+    //     }
 
-        &:hover {
-            background: $light-pink;
-        }
-    }
+    //     &:hover {
+    //         background: variables.$light-pink;
+    //     }
+    // }
 }
+
 
 .not-fount-message {
     text-align: center;
     font-size: 18px;
-    color: $dark-pink;
+    color: variables.$dark-pink;
 }
 
 .btn-info {
-    color: $pink;
+    color: variables.$pink;
     font-size: 24px;
 }
 
@@ -319,7 +341,7 @@ body {
     }
     &__description {
         border-radius: 20px;
-        border: 1.5px solid $light-pink;
+        border: 1.5px solid variables.$light-pink;
         padding: 15px;
     }
 }
@@ -354,10 +376,10 @@ body {
 .dots{
     width: 80px;
     background-color: white;
-    padding: 8px 8px 0;
+    padding: 8px 0px 0;
     border-radius: 15px 15px 0 0;
     height: 26px;
-    @include element-flex(row, space-between, center);
+    @include element-flex(row, center, center);
     margin: 0 auto;
 
     position: absolute;
@@ -370,9 +392,10 @@ body {
     height: 9px;
     width: 9px;
     border-radius: 50%;
-    background: $pink;
+    background: variables.$pink;
     opacity: .5;
     transition: .4s ease;
+    margin: 0 3px;
 }
 
 .dot.active{
@@ -423,7 +446,7 @@ body {
     &__name {
         font-weight: 500;
         font-size: 20px;
-        color: $black;
+        color: variables.$black;
         text-align: center;
         padding: 5px 20px;
         background-color: white;
@@ -434,7 +457,7 @@ body {
     }
     &__text {
         text-align: center;
-        color: $grey-text;
+        color: variables.$grey-text;
         font-size: 12px;
         max-width: 80%;
         margin: 15px auto;
@@ -467,17 +490,17 @@ body {
 
     &__title {
         font-weight: 600;
-        color: $black;
+        color: variables.$black;
     }
     &__text {
         font-size: 12px;
-        color: $grey-text;
+        color: variables.$grey-text;
     }
 }
 
 .back-btn {
     @include element-flex(row, center, center);
-    color: $grey-text;
+    color: variables.$grey-text;
     // background-color: $light-pink;
     font-weight: 400;
     text-decoration: underline;
@@ -498,7 +521,7 @@ body {
 .sorry-message {
     text-align: center;
     font-size: 18px;
-    color: $pink;
+    color: variables.$pink;
     margin-top: 30px;
 }
 

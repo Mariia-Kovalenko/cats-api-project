@@ -1,3 +1,5 @@
+import { API_URL } from "../../utils/_constants";
+
 const Aside = () => {
     return (
         <aside className="wrapper__aside aside">
@@ -9,7 +11,7 @@ const Aside = () => {
                 <p className="aside__desc">
                     Here you can find out about cats, browse adorable cat images and choose the best breed for you!
                 </p>
-                <a href="https://thecatapi.com/" className="aside__button" target="blank">
+                <a href={API_URL} className="aside__button" target="blank">
                     <img src="images/Cat.svg" alt=''></img>
                     Original API
                 </a>

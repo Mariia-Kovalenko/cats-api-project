@@ -1,21 +1,19 @@
 import { useState, useEffect } from "react";
 import CatService from "../../services/CatService";
-import {BASE_URL, BREEDS, IMAGES} from '../../services/_constants'
+import {BASE_URL, IMAGES} from '../../utils/_constants';
 
-const BreedDetails = (props) => {
-    const cat = props.catInfo;
+const BreedDetails = ({catInfo, showData}) => {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [breeds, setBreeds] = useState([cat.url]);
+    const [breeds, setBreeds] = useState([catInfo.url]);
 
     let urlsLoaded = false;
-    const catService = new CatService();
 
     useEffect(() => {
         getBreedImages()
     }, [])
 
     const onImagesLoaded = (res) => {
-        const catUrls = res.map(cat => cat.url);
+        const catUrls = res.map((cat) => cat.url);
 
         if (!urlsLoaded) {
             urlsLoaded = true;
@@ -24,8 +22,7 @@ const BreedDetails = (props) => {
     }
 
     const getBreedImages = () => {
-        console.log('request');
-        catService.loadData(BASE_URL + IMAGES + '?breed_ids=' + cat.breedId, {limit: 4})
+        CatService.loadData(BASE_URL + IMAGES + '?breed_ids=' + catInfo.breedId, {limit: 4})
                 .then(onImagesLoaded)
                 .catch(err => {
                     console.log(err);
@@ -109,21 +106,20 @@ const BreedDetails = (props) => {
 
     function renderImg(currentSlide) {
         const url = breeds[currentSlide];
-        console.log(url);
         if (url) {
             return (
                 <div className="description__img">
-                    <img src={url}></img>
+                    <img src={url} alt='desc'/>
                 </div>
             )
         }
         return null;
     }
-    const content = renderDescription(cat);
+    const content = renderDescription(catInfo);
     return (
         <>
             {content}
-            <button className="back-btn" onClick={props.showData}>Back to Breeds</button>
+            <button className="back-btn" onClick={showData}>Back to Breeds</button>
         </>
     )
 }

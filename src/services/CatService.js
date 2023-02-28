@@ -1,41 +1,36 @@
-import { API_KEY } from "./_constants";
 import axios from "axios";
 
 
 class CatService {
 
-    async loadData(url, params){
-        // console.log('request');
-
+    static async loadData(url, params){
         try{
-            axios.defaults.headers.common['x-api-key'] = API_KEY;
+            axios.defaults.headers.common['x-api-key'] = process.env.REACT_APP_API_KEY;
     
             let response = await axios.get(url, 
                 { params: params } ) // Ask for 1 Image, at full resolution
             return response.data;
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
         }
     }
 
-    async postData(url, imageId, user) {
+    static async postData(url, imageId, user) {
         try {
             return axios.post(url, {
                 image_id: imageId,
                 sub_id: user
             })
         }catch (error) {
-            console.log(error.message);
+            console.error(error.message);
         }
     }
 
-    async deleteData(url, imageId) {
-        // console.log(url);
-        console.log('delete');
+    static async deleteData(url, imageId) {
         try {
             return axios.delete(url + '/' + imageId)
         }catch (error) {
-            console.log(error.message);
+            console.error(error.message);
         }
     }
 }

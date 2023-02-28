@@ -1,4 +1,4 @@
-import './loader.scss'
+import './Loader.scss'
 const Loader = () => {
     return (
         <div className="loader__wrapper">

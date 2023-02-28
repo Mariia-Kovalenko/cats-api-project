@@ -1,189 +1,183 @@
-import {useState, useEffect} from 'react';
-import CatService from '../../services/CatService';
+import { useState, useEffect } from "react";
+import CatService from "../../services/CatService";
 import Select from "react-select";
-import { colourStyles } from '../../services/_select-styles';
-import {BASE_URL, BREEDS, IMAGES} from '../../services/_constants'
-import Loader from '../loader/loader';
-import ErrorMessage from '../ErrorMessage/ErrorMessage'
+import { colourStyles } from "../../utils/_select-styles";
+import {
+    ADD_FAVOURITES,
+    ANY_CATEGORY,
+    BASE_URL,
+    BREEDS,
+    CATEGORIES,
+    DATA_LIMIT,
+    IMAGES,
+    NOT_FOUND_MESSAGE,
+} from "../../utils/_constants";
+import Loader from "../../common/Loader/Loader";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import ActionButton from "../../common/ActionButton/ActionButton";
+import Filter from "../Filter/Filter";
 
 const Gallery = (props) => {
+    let breedsOptions = [{ value: ANY_CATEGORY, label: "Any" }];
 
-    let breedsOptions = [
-        {value: 'any', label: 'Any'}
-    ];
-
-    let categoriesOptions = [
-        {value: 'any', label: 'Any'}
-    ];
-    const [selectedBreedOption, setSelectedBreedOption] = useState(breedsOptions[0]);
+    let categoriesOptions = [{ value: ANY_CATEGORY, label: "Any" }];
+    const [selectedBreedOption, setSelectedBreedOption] = useState(
+        breedsOptions[0]
+    );
     const [breedOptions, setBreedsOptions] = useState(breedsOptions);
     const [categoryOptions, setCategoryOptions] = useState(categoriesOptions);
-    const [selectedCategory, setSelectedCategory] = useState(categoriesOptions[0])
+    const [selectedCategory, setSelectedCategory] = useState(
+        categoriesOptions[0]
+    );
     const [cats, setCats] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [limit, setLimit] = useState(8);
 
-    const catService = new CatService();
     let catsLoaded = false;
-    // console.log('cats', cats);
 
     useEffect(() => {
         onRequest();
         // loadCatImages();
-    }, [])
+    }, []);
 
     const onLoading = () => {
         setLoading(true);
-    }
+    };
 
     const onError = () => {
         setError(true);
         setLoading(false);
-    }
+    };
 
     const addFavourites = (imageId) => {
         props.addFavourites(imageId);
-    }
-
+    };
 
     const onRequest = () => {
-        console.log('request');
         onLoading();
 
-        catService.loadData(BASE_URL + BREEDS, {limit: 67})
+        CatService.loadData(BASE_URL + BREEDS, { limit: DATA_LIMIT })
             .then((res) => {
-                const breeds  = res.map(breed => {
-                    const {id, name} = breed;
+                const breeds = res.map((breed) => {
+                    const { id, name } = breed;
                     return {
                         value: name,
                         label: name,
-                        id: id
-                    }
+                        id: id,
+                    };
                 });
 
-                // console.log(breeds);;
-
-                catService.loadData(BASE_URL + 'categories')
-                    .then(res => {
-                        const categories = res.map(category => {
-                            const {id, name} = category;
+                CatService.loadData(BASE_URL + CATEGORIES)
+                    .then((res) => {
+                        const categories = res.map((category) => {
+                            const { id, name } = category;
                             return {
                                 value: name,
                                 label: name,
-                                id: id
-                            }
+                                id: id,
+                            };
                         });
 
-                        // console.log(cats.length);
                         if (!catsLoaded) {
                             catsLoaded = true;
                             loadCatImages();
                         }
-                        setBreedsOptions(breedOptions => [...breedOptions, ...breeds]);
-                        setCategoryOptions(categoryOptions => [...categoryOptions, ...categories]);
+                        setBreedsOptions((breedOptions) => [
+                            ...breedOptions,
+                            ...breeds,
+                        ]);
+                        setCategoryOptions((categoryOptions) => [
+                            ...categoryOptions,
+                            ...categories,
+                        ]);
                     })
-                    .catch(onError)
-            }).catch(onError)
-    }
+                    .catch(onError);
+            })
+            .catch(onError);
+    };
 
     const onCatsLoaded = (res) => {
-        const newCats = res.map(cat => {
-            const {id, url} = cat;
+        const newCats = res.map((cat) => {
+            const { id, url } = cat;
 
             return {
                 id: id,
-                url: url
-            }
-        })
-        console.log(cats);
-
+                url: url,
+            };
+        });
         setCats([...newCats]);
         setLoading(false);
-    }
+    };
 
     const loadCatImages = () => {
-            onLoading();
+        onLoading();
 
-            const category = selectedCategory.id === 'any' ? '' : selectedCategory.id;
-            const breed = selectedBreedOption.id === 'any' ? '' : selectedBreedOption.id;
-            // if (selectedBreedOption.value)
-            catService.loadData(BASE_URL + IMAGES, {
-                limit: limit,
-                category_ids: category,
-                breed_ids: breed
-            })
+        const category =
+            selectedCategory.id === ANY_CATEGORY ? "" : selectedCategory.id;
+        const breed =
+            selectedBreedOption.id === ANY_CATEGORY
+                ? ""
+                : selectedBreedOption.id;
+
+        CatService.loadData(BASE_URL + IMAGES, {
+            limit: limit,
+            category_ids: category,
+            breed_ids: breed,
+        })
             .then(onCatsLoaded)
-            .catch(onError)
-    }
-
-    // const pagination = () => {
-    //     setLimit(limit => limit + 4);
-    //     loadCatImages();
-    // }
+            .catch(onError);
+    };
 
     function renderItems(arr) {
         if (!arr.length) {
-            return (
-                <div className='not-fount-message'>
-                    No images matching this filter. Try another filter.
-                </div>
-            )
+            return <div className="not-fount-message">{NOT_FOUND_MESSAGE}</div>;
         }
 
-        const items = arr.map(item => {
+        const items = arr.map((item) => {
             return (
                 <div key={item.id} className="grid-item">
                     <img className="grid-cat" src={item.url} alt="cat"></img>
                     <div className="item-hover-trigger">
                         <div className="like-btns-white">
-                        <button onClick={() => addFavourites(item.id)}>
-                            <img src='images/heart-pink.svg'></img>
-                        </button>
-                        {/* <button onClick={() => addFavourites(item, 'fav')}>
-                            <img src='images/star-pink.svg'></img>
-                        </button> */}
+                            <ActionButton
+                                action={ADD_FAVOURITES}
+                                onClick={() => addFavourites(item.id)}
+                                imageSrc={"images/heart-pink.svg"}
+                            />
                         </div>
                     </div>
                 </div>
-            )
-        })
+            );
+        });
 
-        return (
-            <div className="grid-block">
-                {items}
-            </div>
-        )
+        return <div className="grid-block">{items}</div>;
     }
 
     const items = renderItems(cats);
-    const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading ? <Loader/> : null;
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const spinner = loading ? <Loader /> : null;
     const content = !(loading || error) ? items : null;
 
     return (
-        <div className='gallery'>
-            <div className='component__filter'>
-            <div className="filter">
-                    <div id="breeds-filter" className="filter__select">
-                        <label className="label">Breed</label>
-                        <Select 
-                            defaultValue={selectedBreedOption}
-                            onChange={setSelectedBreedOption}
-                            options={breedOptions}
-                            styles={colourStyles}/>
-                    </div>
-                    <div id="category-filter" className="filter__select">
-                        <label className="label">Category</label>
-                        <Select 
-                            defaultValue={selectedCategory}
-                            onChange={setSelectedCategory}
-                            options={categoryOptions}
-                            styles={colourStyles}/>
-                    </div>
-                    <button onClick={loadCatImages} className="reload-btn"><img src="images/search.svg"/></button>
-                    <button onClick={loadCatImages} className="reload-btn"><img src="images/reload.svg"/></button>
-                </div>
+        <div className="gallery">
+            <div className="component__filter">
+                <Filter
+                    breedsFilter={{
+                        show: true,
+                        defaultValue: selectedBreedOption,
+                        onChange: setSelectedBreedOption,
+                        options: breedOptions
+                    }}
+                    categoryFilter={{
+                        show: true,
+                        defaultValue: selectedCategory,
+                        onChange: setSelectedCategory,
+                        options: categoryOptions
+                    }}
+                    onSearch={loadCatImages}
+                    onReload={loadCatImages}
+                />
             </div>
             <div className="breeds__images">
                 {errorMessage}
@@ -191,7 +185,7 @@ const Gallery = (props) => {
                 {content}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Gallery
+export default Gallery;

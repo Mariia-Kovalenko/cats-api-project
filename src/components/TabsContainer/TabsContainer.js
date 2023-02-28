@@ -6,14 +6,12 @@ import Breeds from '../Breeds/Breeds';
 import Gallery from '../Gallery/Gallery';
 import BreedDetails from '../BreedDetails/BreedDetails';
 import Favourites from '../Favourites/Favourites';
+import { TAB1, TAB1_TITLE, TAB2, TAB2_TITLE, TAB3, TAB3_TITLE, TAB4, TAB4_TITLE } from '../../utils/_constants';
 
-const TabsContainer = (props) => {
-
-    const [activeTab, setActiveTab] = useState("tab2");
+const TabsContainer = ({ addFavourites }) => {
+    const [activeTab, setActiveTab] = useState(TAB2);
     const [activeBreedsChild, setActiveBreedsChild] = useState('breeds-list');
     const [catInfo, setCatInfo] = useState({});
-
-    console.log('cat received', catInfo);
 
     const showData = (cat) => {
         if (activeBreedsChild === "breeds-list") {
@@ -26,30 +24,58 @@ const TabsContainer = (props) => {
         }
     }
 
-    const content = activeBreedsChild === 'breeds-list' ? <Breeds id="breeds-list" addFavourites={props.addFavourites} showData={showData}/> : <BreedDetails id="breeds-details" showData={showData} catInfo={catInfo}/>
+    const content = activeBreedsChild === 'breeds-list' ? 
+        <Breeds 
+            id="breeds-list" 
+            addFavourites={addFavourites} 
+            showData={showData}
+        /> : 
+            <BreedDetails 
+                id="breeds-details" 
+                showData={showData} 
+                catInfo={catInfo}
+            />
 
     return (
         <>
             <div className="tabs-container tabs">
                 <ul className="tabs__list">
-                    <TabNavItem id="tab1" title="Random Cat" activeTab={activeTab} setActiveTab={setActiveTab}></TabNavItem>
-                    <TabNavItem id="tab2" title="Breeds" activeTab={activeTab} setActiveTab={setActiveTab}></TabNavItem>
-                    <TabNavItem id="tab3" title="Gallery" activeTab={activeTab} setActiveTab={setActiveTab}></TabNavItem>
-                    <TabNavItem id="tab4" title="Favourites" activeTab={activeTab} setActiveTab={setActiveTab}></TabNavItem>
+                    <TabNavItem 
+                        id={TAB1} 
+                        title={TAB1_TITLE} 
+                        activeTab={activeTab} 
+                        setActiveTab={setActiveTab}
+                    />
+                    <TabNavItem 
+                        id={TAB2} 
+                        title={TAB2_TITLE}
+                        activeTab={activeTab} 
+                        setActiveTab={setActiveTab}
+                    />
+                    <TabNavItem 
+                        id={TAB3} 
+                        title={TAB3_TITLE}
+                        activeTab={activeTab} 
+                        setActiveTab={setActiveTab}
+                    />
+                    <TabNavItem 
+                        id={TAB4} 
+                        title={TAB4_TITLE}
+                        activeTab={activeTab} 
+                        setActiveTab={setActiveTab}
+                    />
                 </ul>
                 <div className="tabs__content">
-                    <TabContent id="tab1" activeTab={activeTab}>
-                        <RandomCat addFavourites={props.addFavourites}/>
+                    <TabContent id={TAB1} activeTab={activeTab}>
+                        <RandomCat addFavourites={addFavourites}/>
                     </TabContent>
-                    <TabContent id="tab2" activeTab={activeTab}>
+                    <TabContent id={TAB2} activeTab={activeTab}>
                         {content}
-                        {/* <Breeds id="breeds-list" addFavourites={props.addFavourites} showInfo={showInfo}/>
-                        <BreedDetails id="breeds-details" showInfo={showInfo}/> */}
                     </TabContent>
-                    <TabContent id="tab3" activeTab={activeTab}>
-                        <Gallery addFavourites={props.addFavourites}/>
+                    <TabContent id={TAB3} activeTab={activeTab}>
+                        <Gallery addFavourites={addFavourites}/>
                     </TabContent>
-                    <TabContent id="tab4" activeTab={activeTab}>
+                    <TabContent id={TAB4} activeTab={activeTab}>
                         <Favourites/>
                     </TabContent>
                 </div>

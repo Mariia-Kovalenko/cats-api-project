@@ -1,22 +1,16 @@
 import { useState, useEffect } from "react";
-import Aside from "../aside/aside";
+import Aside from "../../common/Aside/Aside";
 import TabsContainer from "../TabsContainer/TabsContainer";
 import CatService from "../../services/CatService";
-import {BASE_URL} from '../../services/_constants';
+import {BASE_URL, DEFAULT_USER, FAVOURITES} from '../../utils/_constants';
 
 const App = () => {
 
-    const catService = new CatService();
-
     const addFavourites = (imageId) => {
-        const user = 'User-007';
-
-        catService.postData(BASE_URL + 'favourites', imageId, user)
-            .then(res => {
-                console.log(res.data.message);
-            })
-            .catch(err => {
-                console.log(err.message);
+        CatService.postData(BASE_URL + FAVOURITES, imageId, DEFAULT_USER)
+            .then(() => {})
+            .catch(error => {
+                console.error(error.message);
             })
     }
 

@@ -1,23 +1,20 @@
 import CatService from "../../services/CatService";
 import { useState, useEffect } from 'react';
-import Loader from '../loader/loader';
+import Loader from '../../common/Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
-import {BASE_URL, IMAGES} from '../../services/_constants'
+import {BASE_URL, DESC, DISLIKE, IMAGES, LIKE} from '../../utils/_constants'
+import ActionButton from "../../common/ActionButton/ActionButton";
 
 const RandomCat = (props) => {
 
     const [cat, setCat] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-
-    const catService = new CatService();
     let catLoaded = false;
 
     useEffect(() => {
         loadCat()
     }, [])
-
-    // console.log(cat);
 
     const onCatLoading = () => {
         setLoading(true);
@@ -39,8 +36,13 @@ const RandomCat = (props) => {
 
     const loadCat = () => {
         onCatLoading();
-        catService.loadData(BASE_URL + IMAGES, {limit: 1, order: 'Desc', page: getRandomPage()})
-                .then(onCatLoaded)
+        CatService.loadData(
+            BASE_URL + IMAGES, 
+            {
+                limit: 1, 
+                order: DESC, 
+                page: getRandomPage()
+            }).then(onCatLoaded)
                 .catch(onError)
     }
 
@@ -61,7 +63,7 @@ const RandomCat = (props) => {
     }
 
     const errorMessage = error ? <ErrorMessage/> : null;
-    const content = !(loading || error) ? <View cat={cat}/> : null;
+    const content = !(loading || error) ? <Cat cat={cat}/> : null;
 
     return (
         <div className="random-cat__container">
@@ -69,21 +71,23 @@ const RandomCat = (props) => {
             {content}
             {errorMessage}
             <div className={buttonsClasses}>
-                <button onClick={loadCat} className="cat__button dislike">
-                    <img src="images/dislike-white.svg" alt='dislike'></img>
-                </button>
-
-                <button onClick={() => addFavourites(cat.id)} className="cat__button like">
-                    <img src="images/heart-white.svg" alt='like'></img>
-                </button>
+                <ActionButton 
+                    action={DISLIKE}
+                    onClick={loadCat}
+                    imageSrc={'images/dislike-white.svg'}
+                />
+                <ActionButton 
+                    action={LIKE}
+                    onClick={() => addFavourites(cat.id)}
+                    imageSrc={'images/heart-white.svg'}
+                />
             </div>
         </div>
     )
 }
 
-const View = ({cat}) => {
-
-    let {id, url} = cat;
+const Cat = ({cat}) => {
+    let { url } = cat;
 
     return (
         <div className="random-cat__image">
