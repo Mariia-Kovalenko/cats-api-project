@@ -1,12 +1,11 @@
-import Select from "react-select";
 import { useEffect, useState } from "react";
 import CatService from "../../services/CatService";
 import {ADD_FAVOURITES, ANY_CATEGORY, BASE_URL, BREEDS, DATA_LIMIT, IMAGES, INFO, LIMIT_OPTIONS} from '../../utils/_constants'
 import Loader from '../../common/Loader/Loader';
-import ErrorMessage from '../ErrorMessage/ErrorMessage'
-import { colourStyles } from '../../utils/_select-styles';
+import ErrorMessage from '../../common/ErrorMessage/ErrorMessage'
 import ActionButton from "../../common/ActionButton/ActionButton";
 import Filter from "../Filter/Filter";
+import Popup from "../../common/Popup/Popup";
 
 const Breeds = (props) => {
     let breedsOptions = [
@@ -20,6 +19,7 @@ const Breeds = (props) => {
     const [catBreeds, setCatBreeds] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
 
     let randomBreed = null;
 
@@ -37,34 +37,8 @@ const Breeds = (props) => {
     }
     const addFavourites = (imageId) => {
         props.addFavourites(imageId);
+        setShowPopup(true);
     }
-
-    // const onRequest = (limit = 67) => {
-    //     console.log('request to local server');
-    //     axios.post('http://localhost:8080/api/auth/register', {
-    //         username: "React",
-    //         password: "react"
-    //     })
-    //     .then(res => {
-    //         console.log('connected to server');
-    //         console.log(res);
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //     })
-    // }
-
-    // const loadDefaultBreeds = () => {
-    //     // onBreedsLoading();
-
-    //     const randomId = Math.floor(Math.random() * (breedOptions.length - 1))
-    //     const randomBreed = breedOptions[randomId];
-    //     console.log(randomBreed);
-
-    //     CatService.loadData(BASE_URL + IMAGES + '?breed_ids=' + randomBreed.id, {limit: selectedFilterOption.value})
-    //         .then(onBreedFound)
-    //         .catch(onError)
-    // }
 
     const initialRequest = (limit = DATA_LIMIT) => {
         onBreedsLoading();
@@ -135,21 +109,6 @@ const Breeds = (props) => {
         setLoading(false);
     }
 
-    // const onBreedsListLoaded = (res) => {
-    //     const breeds  = res.map(breed => {
-    //         const {id, name} = breed;
-    //         return {
-    //             value: name,
-    //             label: name,
-    //             id: id
-    //         }
-    //     })
-
-    //     setBreedsOptions(breedOptions => [...breeds]);
-    //     // console.log(catBreeds);
-    //     if (catBreeds.length) setLoading(false);
-    // }
-
     const showInfo = (item) => {
         const cat = catBreeds.find(cat => cat.id === item.id)
         props.showData(cat);
@@ -214,6 +173,13 @@ const Breeds = (props) => {
                 {errorMessage}
                 {spinner}
                 {content}
+                {
+                    showPopup && 
+                    <Popup 
+                        setShowPopup={setShowPopup}
+                        message={'Cat added to favourites'}
+                    />
+                }
             </div>
         </div>
     );

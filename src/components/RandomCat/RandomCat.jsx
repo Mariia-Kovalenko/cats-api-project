@@ -1,7 +1,7 @@
 import CatService from "../../services/CatService";
 import { useState, useEffect } from 'react';
 import Loader from '../../common/Loader/Loader';
-import ErrorMessage from '../ErrorMessage/ErrorMessage'
+import ErrorMessage from '../../common/ErrorMessage/ErrorMessage'
 import {BASE_URL, DESC, DISLIKE, IMAGES, LIKE} from '../../utils/_constants'
 import ActionButton from "../../common/ActionButton/ActionButton";
 

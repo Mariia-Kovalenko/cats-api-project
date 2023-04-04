@@ -13,9 +13,10 @@ import {
     NOT_FOUND_MESSAGE,
 } from "../../utils/_constants";
 import Loader from "../../common/Loader/Loader";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import ErrorMessage from "../../common/ErrorMessage/ErrorMessage";
 import ActionButton from "../../common/ActionButton/ActionButton";
 import Filter from "../Filter/Filter";
+import Popup from "../../common/Popup/Popup";
 
 const Gallery = (props) => {
     let breedsOptions = [{ value: ANY_CATEGORY, label: "Any" }];
@@ -33,12 +34,12 @@ const Gallery = (props) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [limit, setLimit] = useState(8);
+    const [showPopup, setShowPopup] = useState(false);
 
     let catsLoaded = false;
 
     useEffect(() => {
         onRequest();
-        // loadCatImages();
     }, []);
 
     const onLoading = () => {
@@ -52,6 +53,7 @@ const Gallery = (props) => {
 
     const addFavourites = (imageId) => {
         props.addFavourites(imageId);
+        setShowPopup(true);
     };
 
     const onRequest = () => {
@@ -183,6 +185,13 @@ const Gallery = (props) => {
                 {errorMessage}
                 {spinner}
                 {content}
+                {
+                    showPopup && 
+                    <Popup 
+                        setShowPopup={setShowPopup}
+                        message={'Cat added to favourites'}
+                    />
+                }
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import CatService from '../../services/CatService';
 import {BASE_URL, DELETE, FAVOURITES, SORRY_MESSAGE} from '../../utils/_constants';
 import Loader from '../../common/Loader/Loader';
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import ErrorMessage from "../../common/ErrorMessage/ErrorMessage";
 import ActionButton from "../../common/ActionButton/ActionButton";
 
 const Favourites = () => {

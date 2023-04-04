@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import Aside from "../../common/Aside/Aside";
+import Popup from "../../common/Popup/Popup";
 import TabsContainer from "../TabsContainer/TabsContainer";
 import CatService from "../../services/CatService";
 import {BASE_URL, DEFAULT_USER, FAVOURITES} from '../../utils/_constants';
+import axios from "axios";
 
 const App = () => {
 
@@ -15,12 +17,15 @@ const App = () => {
     }
 
     return (
+        <>
         <div className="wrapper">
-            <Aside/>
+            <Aside />
             <div className="wrapper__main">
-                <TabsContainer addFavourites={addFavourites}/>
+                <TabsContainer addFavourites={addFavourites} />
             </div>
         </div>
+        {/* <Popup showPopup={true} message={'Popup'} /> */}
+        </> 
     )
 }
 
